@@ -400,10 +400,10 @@ def getAllInfo():
 			elif procmodel == "dm525":
 				model = "DM525 HD"
 			elif procmodel == "dm900":
-				model = "DM900 HD"
+				model = "DM900 UHD"
 				grabpip = 1
 			elif procmodel == "dm920":
-				model = "DM920 HD"
+				model = "DM920 UHD"
 				grabpip = 1
 			else:
 				model = procmodel.replace("dm", "DM", 1)
@@ -552,7 +552,7 @@ def getAllInfo():
 		remote = "xcombo"
 	elif procmodel == "dm8000":
 		remote = "dmm1"
-	elif procmodel in ("dm7080", "dm7020hd", "dm7020hdv2", "dm800sev2", "dm500hdv2", "dm520", "dm820", "dm900"):
+	elif procmodel in ("dm7080", "dm7020hd", "dm800sev2", "dm500hdv2", "dm520", "dm525", "dm820", "dm900", "dm920"):
 		remote = "dmm2"
 	elif procmodel == "wetekhub":
 		remote = procmodel
