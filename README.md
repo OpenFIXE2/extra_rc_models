@@ -1,5 +1,5 @@
 # extra_rc_models
-Extra rc support for PLi-metas (MastaG's great idea)
+Extra RC support for Open Vision
 
 For enigma2:
 
