@@ -296,6 +296,9 @@ def getAllInfo():
 		elif procmodel in ("k1pro", "k2pro", "k2prov2", "k3pro", "k1plus"):
 			brand = "Mecool"
 			model = procmodel.upper()
+		elif procmodel.startswith("kvi"):
+			brand = "Khadas"
+			model = procmodel.upper()
 		elif procmodel == "vipercombo":
 			brand = "Amiko"
 			model = "ViperCombo"
@@ -598,7 +601,7 @@ def getAllInfo():
 		remote = "amiko1"
 	elif procmodel == "alien5":
 		remote = "alien5"
-	elif procmodel in ("k1pro", "k2pro", "k2prov2", "k1plus"):
+	elif procmodel in ("k1pro", "k2pro", "k2prov2", "k1plus", "kvim2"):
 		remote = "k1pro"
 	elif procmodel == "k3pro":
 		remote = "k3pro"
