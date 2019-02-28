@@ -187,10 +187,10 @@ def getAllInfo():
 			model = procmodel.replace("formuler", "")
 			if model.isdigit():
 				model = 'F' + model
-		elif procmodel.startswith("mbtwinplus"):
+		elif procmodel == "mbtwinplus":
 			brand = "Miraclebox"
 			model = "Premium Twin+"
-		elif procmodel.startswith("alphatriplehd"):
+		elif procmodel == "alphatriplehd":
 			brand = "SAB"
 			model = "Alpha Triple HD"
 		elif procmodel in ("7000s", "mbmicro"):
@@ -297,13 +297,13 @@ def getAllInfo():
 			model = "spycat 4K Mini"
 		elif procmodel in ("k1pro", "k2pro", "k2prov2", "k3pro", "k1plus"):
 			brand = "Mecool"
-			model = procmodel.upper()
+			model = procmodel
 		elif procmodel.startswith("kvi"):
 			brand = "Khadas"
-			model = procmodel.upper()
-		elif procmodel.startswith("c3") or procmodel.startswith("c4"):
+			model = procmodel
+		elif procmodel in ("c300", "c300pro", "c400plus"):
 			brand = "Magicsee"
-			model = procmodel.upper()
+			model = procmodel
 		elif procmodel == "vipercombo":
 			brand = "Amiko"
 			model = "ViperCombo"
@@ -370,7 +370,7 @@ def getAllInfo():
 		elif procmodel.startswith("sf"):
 			brand = "Octagon"
 			model = procmodel
-		elif procmodel == "e4hd":
+		elif procmodel == "e4hdultra":
 			brand = "Axas"
 			model = "E4HD"
 			lcd = 1
@@ -423,22 +423,21 @@ def getAllInfo():
 		else:
 			model = procmodel
 
-	if fileExists("/etc/.box"):
-		distro = "HDMU"
-		f = open("/etc/.box", 'r')
-		tempmodel = f.readline().strip().lower()
-		if tempmodel.startswith("ufs") or model.startswith("ufc"):
-			brand = "Kathrein"
-			model = tempmodel.upcase()
-			procmodel = tempmodel
-		elif tempmodel.startswith("spark"):
-			brand = "Fulan"
-			model = tempmodel.title()
-			procmodel = tempmodel
-		elif tempmodel.startswith("xcombo"):
-			brand = "EVO"
-			model = "enfinityX combo plus"
-			procmodel = "vg2000"
+	if fileExists("/etc/model"):
+		f = open("/etc/model", 'r')
+		ovmodel = f.readline().strip().lower()
+		if ovmodel in ("k1pro", "k2pro", "k2prov2", "k3pro", "k1plus"):
+			brand = "Mecool"
+			model = ovmodel
+			procmodel = ovmodel
+		elif ovmodel.startswith("kvi"):
+			brand = "Khadas"
+			model = ovmodel
+			procmodel = ovmodel
+		elif ovmodel in ("c300", "c300pro", "c400plus"):
+			brand = "Magicsee"
+			model = ovmodel
+			procmodel = ovmodel
 
 	type = procmodel
 	if type in ("et9x00", "et9000", "et9100", "et9200", "et9500"):
@@ -459,17 +458,17 @@ def getAllInfo():
 		type = "esi88"
 	elif type in ("tf7700hdpvr", "topf"):
 		type = "topf"
-	elif type in ("ini-9000de"):
+	elif type == "ini-9000de":
 		type = "xpeedlx3"
-	elif type in ("ini-8000am"):
+	elif type == "ini-8000am":
 		type = "atemionemesis"
-	elif type in ("ini-8000am"):
+	elif type == "ini-8000am":
 		type = "mbultra"		
-	elif type in ("ini-9000ru"):
+	elif type == "ini-9000ru":
 		type = "sezammarvel"
-	elif type in ("ini-3000"):
+	elif type == "ini-3000":
 		type = "ventonhdx"
-	elif type in ("ini-1000sv"):
+	elif type == "ini-1000sv":
 		type = "mbmini"			
 
 	info['brand'] = brand
@@ -522,7 +521,7 @@ def getAllInfo():
 		remote = "ini-1000"
 	elif procmodel == "ini-1000sv":
 		remote = "mbmini"	
-	elif procmodel in (	"ini-5000sv", "ini-9000de"):
+	elif procmodel in ("ini-5000sv", "ini-9000de"):
 		remote = "xpeedlx3"
 	elif procmodel == "ini-9000ru":
 		remote = "sezammarvel"		
@@ -580,15 +579,13 @@ def getAllInfo():
 		remote = "edision2"
 	elif procmodel.startswith("osn"):
 		remote = "edision1"
-	elif procmodel in ("fusionhd"):
+	elif procmodel == "fusionhd":
 		remote = procmodel
-	elif procmodel in ("fusionhdse"):
+	elif procmodel == "fusionhdse":
 		remote = procmodel
 	elif procmodel in ("purehd", "purehdse"):
 		remote = "purehd"
-	elif procmodel in ("revo4k"):
-		remote = procmodel
-	elif procmodel in ("galaxy4k"):
+	elif procmodel in ("revo4k", "galaxy4k"):
 		remote = procmodel
 	elif procmodel in ("lunix3-4k", "lunix"):
 		remote = "qviart"
@@ -596,13 +593,11 @@ def getAllInfo():
 		remote = "sh1"
 	elif procmodel in ("h3", "h4", "h5", "h6", "h7", "h9", "i55plus"):
 		remote = "h3"
-	elif procmodel in ():
-		remote = "h3"
 	elif procmodel == "i55":
 		remote = "i55"
 	elif procmodel in ("vipercombo", "vipert2c"):
 		remote = "amiko"
-	elif procmodel in ("vipercombohdd"):
+	elif procmodel == "vipercombohdd":
 		remote = "amiko1"
 	elif procmodel == "alien5":
 		remote = "alien5"
@@ -628,41 +623,11 @@ def getAllInfo():
 	imagebuild = ""
 	driverdate = "unknown"
 
-	# Assume OE 1.6
-	oever = "OE 1.6"
-	if kernel > 2:
-		oever = "OE 2.0"
+	oever = "PLi-OE"
 
-	if fileExists("/etc/.box"):
-		distro = "HDMU"
-		oever = "private"
-	elif fileExists("/etc/bhversion"):
-		distro = "Black Hole"
-		f = open("/etc/bhversion", 'r')
-		imagever = f.readline().strip()
-		f.close()
-		if kernel > 2:
-			oever = "OpenVuplus 2.1"
-	elif fileExists("/etc/vtiversion.info"):
-		distro = "VTi-Team Image"
-		f = open("/etc/vtiversion.info", 'r')
-		imagever = f.readline().strip().replace("VTi-Team Image ", "").replace("Release ", "").replace("v.", "")
-		f.close()
-		oever = "OE 1.6"
-		imagelist = imagever.split('.')
-		imagebuild = imagelist.pop()
-		imagever = ".".join(imagelist)
-		if kernel > 2:
-			oever = "OpenVuplus 2.1"
-		if ((imagever == "5.1") or (imagever[0] > 5)):
-			oever = "OpenVuplus 2.1"
-	elif fileExists("/var/grun/grcstype"):
-		distro = "Graterlia OS"
-		try:
-			imagever = about.getImageVersionString()
-		except:  # nosec  # noqa: E722
-			pass
-	# ToDo: If your distro gets detected as OpenPLi, feel free to add a detection for your distro here ...
+	if fileExists("/etc/model"):
+		distro = "openvision"
+		oever = "PLi-OE"
 	else:
 		# OE 2.2 uses apt, not opkg
 		if not fileExists("/etc/opkg/all-feed.conf"):
@@ -676,7 +641,7 @@ def getAllInfo():
 			except:  # nosec  # noqa: E722
 				pass
 
-		if distro in ("openpli", "satdreamgr", "openvision"):
+		if distro in ("openpli", "satdreamgr", "openvision", "openrsi"):
 			oever = "PLi-OE"
 			try:
 				imagelist = open("/etc/issue").readlines()[-2].split()[1].split('.')
@@ -690,22 +655,11 @@ def getAllInfo():
 			except:  # nosec  # noqa: E722
 				# just in case
 				pass
-		elif distro == "openrsi":
-			oever = "PLi-OE"
 		else:
 			try:
 				imagever = about.getImageVersionString()
 			except:  # nosec  # noqa: E722
 				pass
-
-		if (distro == "unknown" and brand == "Vu+" and fileExists("/etc/version")):
-			# Since OE-A uses boxbranding and bh or vti can be detected, there isn't much else left for Vu+ boxes
-			distro = "Vu+ original"
-			f = open("/etc/version", 'r')
-			imagever = f.readline().strip()
-			f.close()
-			if kernel > 2:
-				oever = "OpenVuplus 2.1"
 
 	# reporting the installed dvb-module version is as close as we get without too much hassle
 	driverdate = 'unknown'
@@ -725,8 +679,8 @@ def getAllInfo():
 	info['imagever'] = imagever
 	info['imagebuild'] = imagebuild
 	info['driverdate'] = driverdate
-	info['lcd'] = distro in ("openpli",) and lcd or 0
-	info['grabpip'] = distro in ("openpli",) and grabpip or 0
+	info['lcd'] = distro in ("openpli", "satdreamgr", "openvision", "openrsi") and lcd or 0
+	info['grabpip'] = distro in ("openpli", "satdreamgr", "openvision", "openrsi") and grabpip or 0
 	return info
 
 
